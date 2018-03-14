@@ -3,6 +3,7 @@ package de.wirtgen.staiger.barkeeper;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,8 +14,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import org.greenrobot.greendao.database.Database;
+
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    public static final boolean ENCRYPTED = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +45,24 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        //Create/Load DB
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, ENCRYPTED ? "notes-db-encrypted" : "notes-db");
+        Database db = ENCRYPTED ? helper.getEncryptedWritableDb("super-secret") : helper.getWritableDb();
+        DaoSession daoSession = new DaoMaster(db).newSession();
+
+        //Füge Cocktail hinzu
+        DaoCocktail longIsland = new DaoCocktail();
+
+        longIsland.setDescription("Betser Cocktail der Welt!");
+        longIsland.setIngredients("Rum, Rum, Gin, Zitrone, Cola, Ice");
+        longIsland.setName("Long Island Iced Tea");
+        longIsland.setUrlPicture("/test.png");
+        longIsland.setPreparation("1) Alles zusammen kippen 2) Mixen 3) Saufen");
+        daoSession.getDaoCocktailDao().insert(longIsland);
+        Log.d("DaoDB", "Inserted Cocktail with ID: " + longIsland.getId());
+
     }
 
     @Override
