@@ -3,6 +3,7 @@ package de.wirtgen.staiger.barkeeper;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -32,8 +33,15 @@ public class HomeActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                if (view.isSelected()) {
+                    view.setSelected(false);
+                    Snackbar.make(view, "Aus Favoriten entfernt", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                } else {
+                    view.setSelected(true);
+                    Snackbar.make(view, "Zu Favoriten hinzugefügt", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
             }
         });
 
@@ -52,10 +60,13 @@ public class HomeActivity extends AppCompatActivity
         Database db = ENCRYPTED ? helper.getEncryptedWritableDb("super-secret") : helper.getWritableDb();
         DaoSession daoSession = new DaoMaster(db).newSession();
 
+        // DB leeren
+        daoSession.getDaoCocktailDao().deleteAll();
+
         //Füge Cocktail hinzu
         DaoCocktail longIsland = new DaoCocktail();
 
-        longIsland.setDescription("Betser Cocktail der Welt!");
+        longIsland.setDescription("Bester Cocktail der Welt!");
         longIsland.setIngredients("Rum, Rum, Gin, Zitrone, Cola, Ice");
         longIsland.setName("Long Island Iced Tea");
         longIsland.setUrlPicture("/test.png");
@@ -110,10 +121,6 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
 
         }
 
