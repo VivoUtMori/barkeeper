@@ -17,10 +17,11 @@ import android.view.MenuItem;
 
 import org.greenrobot.greendao.database.Database;
 
+import java.util.List;
+import java.util.Map;
+
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
-    public static final boolean ENCRYPTED = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,26 +40,17 @@ public class HomeActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-        //Create/Load DB
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, ENCRYPTED ? "notes-db-encrypted" : "notes-db");
-        Database db = ENCRYPTED ? helper.getEncryptedWritableDb("super-secret") : helper.getWritableDb();
-        DaoSession daoSession = new DaoMaster(db).newSession();
-
-        // DB leeren
-        daoSession.getDaoCocktailDao().deleteAll();
-
-        //Füge Cocktail hinzu
-        DaoCocktail longIsland = new DaoCocktail();
-
-        longIsland.setDescription("Bester Cocktail der Welt!");
-        longIsland.setIngredients("Rum, Rum, Gin, Zitrone, Cola, Ice");
-        longIsland.setName("Long Island Iced Tea");
-        longIsland.setUrlPicture("/test.png");
-        longIsland.setPreparation("1) Alles zusammen kippen 2) Mixen 3) Saufen");
-        daoSession.getDaoCocktailDao().insert(longIsland);
-        Log.d("DaoDB", "Inserted Cocktail with ID: " + longIsland.getId());
-
+        DaoSession daoSession = ((App) getApplication()).getDaoSession();
+        CocktailDao cocktailDao = daoSession.getCocktailDao();
+        List<Cocktail> listOfCocktails = cocktailDao.queryBuilder().where(CocktailDao.Properties.Name.like("%Long%")).list();
+        for (Cocktail c : listOfCocktails){
+            Log.d("HomeAktivity", "Loaded Cocktail from DB" + c.getName());
+            Map<Ingredient, Integer> m = c.getAllIngredientsWithUnits();
+            Log.d("HomeAktivity", "Ingredients for cocktail: " + c.getName());
+            for (Map.Entry<Ingredient, Integer> e : m.entrySet()){
+                Log.d("HomeAktivity", "Entry: " + e.getKey().getName() + ": " + e.getValue().toString());
+            }
+        }
     }
 
     @Override
