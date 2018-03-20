@@ -60,6 +60,10 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.home, menu);
+
+        MenuItem item = menu.findItem(R.id.button_favorite);
+        item.setVisible(true);
+
         return true;
     }
 
@@ -87,23 +91,40 @@ public class HomeActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        setTitle(item.getTitle());
-
         switch (id) {
             case R.id.nav_home:
+                setContentView(R.layout.activity_home);
                 break;
             case R.id.nav_search:
+                setContentView(R.layout.activity_search);
                 break;
             case R.id.nav_ingredients:
+                setContentView(R.layout.activity_ingredients);
                 break;
             case R.id.nav_favorites:
+                setContentView(R.layout.activity_favorites);
                 break;
             case R.id.nav_settings:
+                setContentView(R.layout.activity_settings);
                 break;
         }
 
+        setTitle(item.getTitle());
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        //DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        //drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 }
