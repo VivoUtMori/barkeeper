@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/button_favorite"
-        android:icon="@drawable/button_favorite"
+        android:icon="@drawable/button_favorite_deactivated"
         android:title="@string/button_favorite"
         app:showAsAction="ifRoom" />
 </menu>

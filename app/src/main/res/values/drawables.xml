@@ -5,5 +5,6 @@
     <item name="ic_menu_favorites" type="drawable">@android:drawable/btn_star</item>
     <item name="ic_menu_settings" type="drawable">@android:drawable/ic_menu_manage</item>
 
-    <item name="button_favorite" type="drawable">@android:drawable/btn_star</item>
+    <item name="button_favorite_deactivated" type="drawable">@android:drawable/btn_star_big_off</item>
+    <item name="button_favorite_activated" type="drawable">@android:drawable/btn_star_big_on</item>
 </resources>
