@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cocktail_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:columnCount="1"
+    android:orientation="horizontal"
+    android:rowCount="5"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="de.wirtgen.staiger.barkeeper.HomeActivity"
+    tools:showIn="@layout/app_bar_home">
+
+
+    <ImageView
+        android:id="@+id/cocktail_picture"
+        android:layout_width="match_parent"
+        android:layout_height="400px"
+        android:gravity="top|center"
+        ads:srcCompat="@android:color/darker_gray" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/blockspace" />
+
+    <TextView
+        android:id="@+id/Beschreibung"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top|center"
+        android:text="Beschreibung" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/blockspace" />
+
+    <TextView
+        android:id="@+id/Inhalt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top|center"
+        android:text="Inhalt" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/blockspace" />
+
+    <TextView
+        android:id="@+id/Zubereitung"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top|center"
+        android:text="Zubereitung" />
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        ads:adSize="BANNER"
+        ads:adUnitId="MyAdUnitId" />
+
+</GridLayout>
