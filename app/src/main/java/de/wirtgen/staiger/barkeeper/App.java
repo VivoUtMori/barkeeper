@@ -1,7 +1,7 @@
 package de.wirtgen.staiger.barkeeper;
 
 /**
- * Created by skull3r7 on 14.03.2018.
+ * Created by Staiger/Wirtgen on 14.03.2018.
  */
 
 import android.app.Application;
@@ -32,14 +32,45 @@ public class App extends Application {
 
         //daoSession.getDaoCocktailDao().deleteAll();
 
+        Languages german = new Languages();
+        german.setName("de_DE");
+
+        Languages english = new Languages();
+        english.setName("en_EN");
+
+        daoSession.getLanguagesDao().insert(german);
+        daoSession.getLanguagesDao().insert(english);
+
+        Log.d("DaoDB", "Language German has ID:  " + german.getId());
+        Log.d("DaoDB", "Language English has ID: " + english.getId());
+
+
+        Log.d("DaoDB", "Avaible Components: ");
+
+        Components c1 = new Components();
+        c1.setName("Cocktail_Name");
+
+        Components c2 = new Components();
+        c2.setName("Cocktail_Description");
+
+        Components c3 = new Components();
+        c3.setName("Cocktail_Preperation");
+
+
+        daoSession.getComponentsDao().insert(c1);
+        daoSession.getComponentsDao().insert(c2);
+        daoSession.getComponentsDao().insert(c3);
+
+        Log.d("DaoDB", "Comp: " + c1.getName() + " ID " + c1.getId());
+        Log.d("DaoDB", "Comp: " + c2.getName() + " ID " + c2.getId());
+        Log.d("DaoDB", "Comp: " + c3.getName() + " ID " + c3.getId());
+
 
         Ingredient rum = new Ingredient();
-        rum.setName("Brauner Rum");
         rum.setIsAvailable(true);
         rum.setIsForbidden(false);
 
         Ingredient vodka = new Ingredient();
-        vodka.setName("Vodka");
         vodka.setIsForbidden(false);
         vodka.setIsAvailable(true);
 
@@ -47,21 +78,56 @@ public class App extends Application {
         daoSession.getIngredientDao().insert(rum);
         daoSession.getIngredientDao().insert(vodka);
 
-        Log.d("DaoDB", "Inserted Ingredient with ID and Name: " + rum.getId() + " " + rum.getName());
-        Log.d("DaoDB", "Inserted Ingredient with ID and Name: " + vodka.getId() + " " + vodka.getName());
+        LanguagesTexts text_de_Rum = new LanguagesTexts();
+        text_de_Rum.setText("Brauner Rum");
+        text_de_Rum.setIngredientID(rum.getId());
+        text_de_Rum.setLanguageID(german.getId());
 
+        LanguagesTexts text_de_Vodka = new LanguagesTexts();
+        text_de_Vodka.setText("Vodka");
+        text_de_Vodka.setIngredientID(vodka.getId());
+        text_de_Vodka.setLanguageID(german.getId());
+
+        daoSession.getLanguagesTextsDao().insert(text_de_Rum);
+        daoSession.getLanguagesTextsDao().insert(text_de_Vodka);
+
+        Log.d("DaoDB", "Inserted Ingredient with ID: " + rum.getId() + " name: " + text_de_Rum.getText());
+        Log.d("DaoDB", "Inserted Ingredient with ID: " + vodka.getId() + " name: " + text_de_Vodka.getText());
 
 
         Cocktail longIsland = new Cocktail();
-
-        longIsland.setDescription("Bester Cocktail der Welt!");
-        longIsland.setName("Long Island Iced Tea");
         longIsland.setUrlPicture("/test.png");
-        longIsland.setPreparation("1) Alles zusammen kippen 2) Mixen 3) Saufen");
 
         daoSession.getCocktailDao().insert(longIsland);
 
-        Log.d("DaoDB", "Inserted Cocktail with ID and Name: " + longIsland.getId() + " " + longIsland.getName());
+        Log.d("DaoDB", "Inserted Cocktail with ID and Name: " + longIsland.getId() + "Long Island Iced Tea");
+
+
+        LanguagesTexts li_de_Description = new LanguagesTexts();
+        li_de_Description.setLanguageID(german.getId());
+        li_de_Description.setComponentID(c1.getId());
+        li_de_Description.setCocktailID(longIsland.getId());
+        li_de_Description.setText("Bester Cocktail der Welt!");
+
+        LanguagesTexts li_de_Name = new LanguagesTexts();
+        li_de_Name.setLanguageID(german.getId());
+        li_de_Name.setComponentID(c2.getId());
+        li_de_Name.setCocktailID(longIsland.getId());
+        li_de_Name.setText("Long Island Iced Tea");
+
+
+        LanguagesTexts li_de_Preperation = new LanguagesTexts();
+        li_de_Preperation.setLanguageID(german.getId());
+        li_de_Preperation.setComponentID(c3.getId());
+        li_de_Preperation.setCocktailID(longIsland.getId());
+        li_de_Preperation.setText("1) Alles zusammen kippen 2) Mixen 3) Saufen");
+
+
+        daoSession.getLanguagesTextsDao().insert(li_de_Description);
+        daoSession.getLanguagesTextsDao().insert(li_de_Name);
+        daoSession.getLanguagesTextsDao().insert(li_de_Preperation);
+
+
 
         Recipes recipeLongIsland = new Recipes();
         recipeLongIsland.setCocktailID(longIsland.getId());
@@ -77,8 +143,8 @@ public class App extends Application {
         daoSession.getRecipesDao().insert(recipeLongIsland2);
 
 
-        Log.d("DaoDB", "Inserted RecipeEntry with: " + longIsland.getName() + " " + rum.getName() + " " + recipeLongIsland.getUnits());
-        Log.d("DaoDB", "Inserted RecipeEntry with: " + longIsland.getName() + " " + vodka.getName() + " " + recipeLongIsland2.getUnits());
+        Log.d("DaoDB", "Inserted RecipeEntry with: " + longIsland.getId() + " " + rum.getId() + " " + recipeLongIsland.getUnits());
+        Log.d("DaoDB", "Inserted RecipeEntry with: " + longIsland.getId() + " " + vodka.getId() + " " + recipeLongIsland2.getUnits());
 
 
     }

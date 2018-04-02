@@ -42,16 +42,30 @@ public class HomeActivity extends AppCompatActivity
         mAdView.loadAd(adRequest);
 
         DaoSession daoSession = ((App) getApplication()).getDaoSession();
-        CocktailDao cocktailDao = daoSession.getCocktailDao();
-        List<Cocktail> listOfCocktails = cocktailDao.queryBuilder().where(CocktailDao.Properties.Name.like("%Long%")).list();
-        for (Cocktail c : listOfCocktails) {
-            Log.d("HomeActivity", "Loaded Cocktail from DB" + c.getName());
-            Map<Ingredient, Integer> m = c.getAllIngredientsWithUnits();
-            Log.d("HomeActivity", "Ingredients for cocktail: " + c.getName());
-            for (Map.Entry<Ingredient, Integer> e : m.entrySet()) {
-                Log.d("HomeActivity", "Entry: " + e.getKey().getName() + ": " + e.getValue().toString());
-            }
+
+        List<LanguagesTexts> llt = daoSession.getLanguagesTextsDao().loadAll();
+
+        for (LanguagesTexts lt : llt){
+            Log.d("DaoDB", "LanguageText ID: " + lt.getId() + " IngredientID: " + lt.getIngredientID() + " text: " + lt.getText());
         }
+
+        List<Ingredient> listIngredients = daoSession.getIngredientDao().loadAll();
+        for (Ingredient i : listIngredients){
+            Log.d("DaoDB","Readed Ingredient: "+ i.getId());
+            String l = i.getIngredientsName((long) 1);
+            Log.d("DaoDB","Readed Ingredient: "+ i.getId() + " name: " + l);
+        }
+
+        /*CocktailDao cocktailDao = daoSession.getCocktailDao();
+        List<Cocktail> listOfCocktails = daoSession.getLanguagesTextsDao().queryBuilder().where(CocktailDao.Properties.Name.like("%Long%")).list();
+        for (Cocktail c : listOfCocktails) {
+            Log.d("HomeActivity", "Loaded Cocktail from DB" + c.getId());
+            Map<Ingredient, Integer> m = c.getAllIngredientsWithUnits();
+            Log.d("HomeActivity", "Ingredients for cocktail: " + c.getId());
+            for (Map.Entry<Ingredient, Integer> e : m.entrySet()) {
+                Log.d("HomeActivity", "Entry: " + e.getKey().getId() + ": " + e.getValue().toString());
+            }
+        }*/
     }
 
     @Override

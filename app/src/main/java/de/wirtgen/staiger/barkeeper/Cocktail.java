@@ -1,24 +1,21 @@
 package de.wirtgen.staiger.barkeeper;
 
-import android.support.annotation.NonNull;
-
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.JoinEntity;
 import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.ToMany;
-import org.greenrobot.greendao.annotation.Unique;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
+import org.greenrobot.greendao.query.QueryBuilder;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
 
 /**
- * Created by skull3r7 on 14.03.2018.
+ * Created by Staiger/Wirtgen on 14.03.2018.
  */
 
 @Entity
@@ -28,17 +25,7 @@ public class Cocktail {
     private Long id;
 
     @NotNull
-    @Unique
-    private String name;
-
-    @NotNull
-    private String description;
-
-    @NotNull
     private String urlPicture;
-
-    @NotNull
-    private String preparation;
 
     private Boolean isFavourite;
 
@@ -58,15 +45,10 @@ public class Cocktail {
     @Generated(hash = 745348896)
     private transient CocktailDao myDao;
 
-    @Generated(hash = 2041986120)
-    public Cocktail(Long id, @NotNull String name, @NotNull String description,
-            @NotNull String urlPicture, @NotNull String preparation,
-            Boolean isFavourite) {
+    @Generated(hash = 1982294495)
+    public Cocktail(Long id, @NotNull String urlPicture, Boolean isFavourite) {
         this.id = id;
-        this.name = name;
-        this.description = description;
         this.urlPicture = urlPicture;
-        this.preparation = preparation;
         this.isFavourite = isFavourite;
     }
 
@@ -82,36 +64,12 @@ public class Cocktail {
         this.id = id;
     }
 
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return this.description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getUrlPicture() {
         return this.urlPicture;
     }
 
     public void setUrlPicture(String urlPicture) {
         this.urlPicture = urlPicture;
-    }
-
-    public String getPreparation() {
-        return this.preparation;
-    }
-
-    public void setPreparation(String preparation) {
-        this.preparation = preparation;
     }
 
     public Boolean getIsFavourite() {
@@ -200,11 +158,36 @@ public class Cocktail {
         return m;
     }
 
+    public String getCocktailsName(Long languageID){
+        QueryBuilder<LanguagesTexts> qb = this.daoSession.getLanguagesTextsDao().queryBuilder();
+        qb.where(LanguagesTextsDao.Properties.CocktailID.eq(this.getId())).where(LanguagesTextsDao.Properties.ComponentID.eq((long)1));
+        List<LanguagesTexts> lt = qb.list();
+        LanguagesTexts t = lt.get(0);
+        return t.getText();
+    }
+
+    public String getCocktailsDescription(Long languageID){
+        QueryBuilder<LanguagesTexts> qb = this.daoSession.getLanguagesTextsDao().queryBuilder();
+        qb.where(LanguagesTextsDao.Properties.CocktailID.eq(this.getId())).where(LanguagesTextsDao.Properties.ComponentID.eq((long)2));
+        List<LanguagesTexts> lt = qb.list();
+        LanguagesTexts t = lt.get(0);
+        return t.getText();
+    }
+
+    public String getCocktailsPreperation(Long languageID){
+        QueryBuilder<LanguagesTexts> qb = this.daoSession.getLanguagesTextsDao().queryBuilder();
+        qb.where(LanguagesTextsDao.Properties.CocktailID.eq(this.getId())).where(LanguagesTextsDao.Properties.ComponentID.eq((long)3));
+        List<LanguagesTexts> lt = qb.list();
+        LanguagesTexts t = lt.get(0);
+        return t.getText();
+    }
+
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 684466229)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getCocktailDao() : null;
     }
+
 
 }

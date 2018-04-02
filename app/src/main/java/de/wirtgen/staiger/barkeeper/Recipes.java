@@ -6,7 +6,7 @@ import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.Generated;
 
 /**
- * Created by skull3r7 on 19.03.2018.
+ * Created by Staiger/Wirtgen on 19.03.2018.
  */
 
 @Entity
