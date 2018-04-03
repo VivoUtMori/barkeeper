@@ -5,6 +5,9 @@ package de.wirtgen.staiger.barkeeper;
  */
 
 import android.app.Application;
+import android.app.LoaderManager;
+import android.content.Context;
+import android.content.res.Configuration;
 import android.util.Log;
 
 import org.greenrobot.greendao.database.Database;
@@ -16,8 +19,21 @@ public class App extends Application {
     private DaoSession daoSession;
 
     @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(LanguageManager.setLanguage(base, LanguageManager.getCurrentLanguage()));
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LanguageManager.setLanguage(this, LanguageManager.getCurrentLanguage());
+    }
+
+    @Override
     public void onCreate() {
         super.onCreate();
+
+        Log.d("APP", "Locale Language: " + this.getBaseContext().getResources().getConfiguration().locale.getLanguage());
 
         //Create/Load DB
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this,  "cocktail-db-encrypted");

@@ -1,14 +1,13 @@
 <resources>
-    <string name="app_name">Barkeeper</string>
 
-    <string name="navigation_drawer_open">Navigation öffnen</string>
-    <string name="navigation_drawer_close">Navigation schließen</string>
-
+    <string name="app_name" translatable="false">Barkeeper</string>
+    <string name="navigation_drawer_open">Open navigation</string>
+    <string name="navigation_drawer_close">Close navigation</string>
     <string name="nav_home">Home</string>
-    <string name="nav_search">Suche</string>
-    <string name="nav_ingredients">Zutaten</string>
-    <string name="nav_favorites">Favoriten</string>
-    <string name="nav_settings">Einstellungen</string>
-
-    <string name="button_favorite">Favorit</string>
+    <string name="nav_search">Search</string>
+    <string name="nav_ingredients">Ingredients</string>
+    <string name="nav_favorites">Favorites</string>
+    <string name="nav_settings">Settings</string>
+    <string name="button_favorite">Favorite</string>
+    <string name="button_language">Change language</string>
 </resources>

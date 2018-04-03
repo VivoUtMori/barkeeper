@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="navigation_drawer_open">Navigation öffnen</string>
+    <string name="navigation_drawer_close">Navigation schließen</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_search">Suche</string>
+    <string name="nav_ingredients">Zutaten</string>
+    <string name="nav_favorites">Favoriten</string>
+    <string name="nav_settings">Einstellungen</string>
+    <string name="button_favorite">Favorit</string>
+    <string name="button_language">Sprache wechseln</string>
+</resources>
