@@ -1,6 +1,8 @@
 package de.wirtgen.staiger.barkeeper;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.support.design.widget.NavigationView;
@@ -182,5 +184,19 @@ public class HomeActivity extends AppCompatActivity
 
     public void refreshActivity(){
         recreate();
+    }
+
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(LanguageManager.setLanguage(base, LanguageManager.getCurrentLanguage()));
+        Log.d("BarkeeperApp", "attachBaseContext");
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LanguageManager.setLanguage(this, LanguageManager.getCurrentLanguage());
+        Log.d("BarkeeperApp", "Config has changed");
     }
 }

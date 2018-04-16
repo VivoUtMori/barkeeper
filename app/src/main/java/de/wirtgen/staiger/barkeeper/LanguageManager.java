@@ -24,15 +24,17 @@ public class LanguageManager {
     }
 
     public enum Language {
-        ENGLISH("en_en", 2),
-        GERMAN("de_de", 1);
+        ENGLISH("en_en", 2, Locale.ENGLISH.getLanguage()),
+        GERMAN("de_de", 1, Locale.GERMAN.getLanguage());
 
         private final String localeString;
         private final long id;
+        private final String locale;
 
-        Language(String locale, long id){
-            this.localeString = locale;
+        Language(String localeStr, long id, String locale){
+            this.localeString = localeStr;
             this.id = id;
+            this.locale = locale;
         }
 
     }
@@ -54,9 +56,9 @@ public class LanguageManager {
 
     private static Context update(Context c, Language l){
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(c);
-        pref.edit().putString("language_key", l.localeString);
+        pref.edit().putString("language_key", l.locale);
 
-        Locale locale = new Locale(l.localeString);
+        Locale locale = new Locale(l.locale);
         Locale.setDefault(locale);
 
         Resources r = c.getResources();
