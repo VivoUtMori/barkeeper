@@ -31,7 +31,7 @@ public class HomeActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        setTitle("Home");
+        setTitle(R.string.nav_home);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -178,5 +178,9 @@ public class HomeActivity extends AppCompatActivity
         super.onPostCreate(savedInstanceState);
 
         toggle.syncState();
+    }
+
+    public void refreshActivity(){
+        recreate();
     }
 }

@@ -12,7 +12,7 @@ public class IngredientsActivity extends HomeActivity {
 
         super.onCreate(savedInstanceState);
 
-        setTitle("Ingredients");
+        setTitle(R.string.nav_ingredients);
 
         FrameLayout contentFrameLayout = findViewById(R.id.content_frame);
         getLayoutInflater().inflate(R.layout.content_ingredients, contentFrameLayout);

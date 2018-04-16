@@ -11,7 +11,7 @@ public class FavoritesActivity extends HomeActivity {
 
         super.onCreate(savedInstanceState);
 
-        setTitle("Favorites");
+        setTitle(R.string.nav_favorites);
 
         FrameLayout contentFrameLayout = findViewById(R.id.content_frame);
         getLayoutInflater().inflate(R.layout.content_favorites, contentFrameLayout);

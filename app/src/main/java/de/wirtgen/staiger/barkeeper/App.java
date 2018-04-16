@@ -8,15 +8,42 @@ import android.app.Application;
 import android.app.LoaderManager;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.media.MediaScannerConnection;
+import android.os.Environment;
 import android.util.Log;
 
 import org.greenrobot.greendao.database.Database;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.nio.channels.FileChannel;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import static android.os.Environment.DIRECTORY_DOCUMENTS;
+import static android.os.Environment.DIRECTORY_DOWNLOADS;
+
+
 public class App extends Application {
     /** A flag to show how easily you can switch from standard SQLite to the encrypted SQLCipher. */
-    public static final boolean ENCRYPTED = true;
+    public static final boolean ENCRYPTED = false;
+    private static final boolean readFromExternal = false;
 
     private DaoSession daoSession;
+    private DaoMaster.DevOpenHelper helper;
+    private DaoMaster dm;
+    private Database db;
+
+    private String dbName = "cocktail-db.db";
+    private String dbPW = "super-secret";
+
+
+
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -27,21 +54,99 @@ public class App extends Application {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         LanguageManager.setLanguage(this, LanguageManager.getCurrentLanguage());
+        Log.d("BarkeeperApp", "Config has changed");
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        Log.d("APP", "Locale Language: " + this.getBaseContext().getResources().getConfiguration().locale.getLanguage());
+        Log.d("BarkeeperApp", "Locale Language: " + this.getBaseContext().getResources().getConfiguration().locale.getLanguage());
+        //LanguageManager.getInstance().setLanguage(this, LanguageManager.Language.ENGLISH);
+
 
         //Create/Load DB
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this,  "cocktail-db-encrypted");
-        Database db = ENCRYPTED ? helper.getEncryptedWritableDb("super-secret") : helper.getWritableDb();
-        DaoMaster dm = new DaoMaster(db);
+        if (this.readFromExternal)
+            this.readDBfromPublicDir();
+
+        helper = new DaoMaster.DevOpenHelper(this,  this.dbName);
+        db = ENCRYPTED ? helper.getEncryptedWritableDb(this.dbPW) : helper.getWritableDb();
+
+        dm = new DaoMaster(db);
         daoSession = dm.newSession();
 
+        if (!this.readFromExternal){
+            this.createTestData();
+        }
 
+
+        saveDaoDatabase();
+
+    }
+
+    public DaoSession getDaoSession() {
+        return daoSession;
+    }
+
+    public void readDBfromPublicDir(){
+        try {
+            File file_db = new File(((Context) this).getExternalFilesDir(null), this.dbName);
+
+            File data = Environment.getDataDirectory();
+            String currentDBPath = "data//de.wirtgen.staiger.barkeeper//databases//" + this.dbName;
+
+            File currentDB = new File(data, currentDBPath);
+
+            FileChannel src = new FileInputStream(file_db).getChannel();
+            FileChannel dst = new FileOutputStream(currentDB).getChannel();
+            dst.transferFrom(src, 0, src.size());
+            src.close();
+            dst.close();
+
+            Log.d("BarkeeperApp", "DB loaded from ExternalDir");
+        }
+        catch (Exception e){
+            Log.d("BarkeeperApp", "exception", e);
+        }
+    }
+
+    public void saveDaoDatabase(){
+        try {
+
+            File data = Environment.getDataDirectory();
+            String currentDBPath = "data//de.wirtgen.staiger.barkeeper//databases//" + this.dbName;
+
+            File currentDB = new File(data, currentDBPath);
+
+            SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+            String time = sdf.format(new Date());
+
+
+            File traceFile = new File(((Context)this).getExternalFilesDir(null),  time + "_" + this.dbName);
+            if (!traceFile.exists())
+                traceFile.createNewFile();
+
+            FileChannel src = new FileInputStream(currentDB).getChannel();
+            FileChannel dst = new FileOutputStream(traceFile).getChannel();
+            dst.transferFrom(src, 0, src.size());
+            src.close();
+            dst.close();
+
+            MediaScannerConnection.scanFile((Context)(this),
+                    new String[] { traceFile.toString() },
+                    null,
+                    null);
+
+            Log.d("BarkeeperApp", "DB was saved to ExternalDir");
+
+        }
+        catch (Exception e){
+            Log.d("BarkeeperApp", "exception", e);
+        }
+
+    }
+
+    public void createTestData(){
         // DB leeren
         dm.dropAllTables(db, true);
         dm.createAllTables(db, true);
@@ -162,10 +267,5 @@ public class App extends Application {
         Log.d("DaoDB", "Inserted RecipeEntry with: " + longIsland.getId() + " " + rum.getId() + " " + recipeLongIsland.getUnits());
         Log.d("DaoDB", "Inserted RecipeEntry with: " + longIsland.getId() + " " + vodka.getId() + " " + recipeLongIsland2.getUnits());
 
-
-    }
-
-    public DaoSession getDaoSession() {
-        return daoSession;
     }
 }
