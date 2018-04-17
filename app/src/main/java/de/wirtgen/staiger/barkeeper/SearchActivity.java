@@ -14,6 +14,9 @@ public class SearchActivity extends HomeActivity {
 
         setTitle(R.string.nav_search);
 
+        //remove Content from HomeActivity
+        this.removeHomeView();
+
         FrameLayout contentFrameLayout = findViewById(R.id.content_frame);
         getLayoutInflater().inflate(R.layout.content_search, contentFrameLayout);
     }

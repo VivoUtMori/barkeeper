@@ -11,4 +11,5 @@
     <string name="button_favorite">Favorite</string>
     <string name="button_language">Change language to DE</string>
     <string name="button_languageEng" >Change language to EN</string>
+    <string name="content_cocktailoftheday">Cocktail of the Day</string>
 </resources>

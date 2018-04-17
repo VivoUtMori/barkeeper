@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.util.Log;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -47,9 +49,9 @@ public class HomeActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        /*AdView mAdView = findViewById(R.id.adView);
+        AdView mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);*/
+        mAdView.loadAd(adRequest);
 
         DaoSession daoSession = ((App) getApplication()).getDaoSession();
 
@@ -186,6 +188,11 @@ public class HomeActivity extends AppCompatActivity
         recreate();
     }
 
+    public void removeHomeView(){
+        ConstraintLayout lr = findViewById(R.id.content_home);
+        CoordinatorLayout cl = findViewById(R.id.app_bar_coordinaterLayout);
+        cl.removeView(lr);
+    }
 
     @Override
     protected void attachBaseContext(Context base) {

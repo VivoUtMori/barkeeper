@@ -2,8 +2,11 @@ package de.wirtgen.staiger.barkeeper;
 
 
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
@@ -21,6 +24,8 @@ public class SettingsActivity extends HomeActivity {
         //setTitle("Settings");
         setTitle(R.string.nav_settings);
 
+        //remove Content from HomeActivity
+        this.removeHomeView();
 
         FrameLayout contentFrameLayout = findViewById(R.id.content_frame);
         getLayoutInflater().inflate(R.layout.content_settings, contentFrameLayout);

@@ -13,6 +13,9 @@ public class FavoritesActivity extends HomeActivity {
 
         setTitle(R.string.nav_favorites);
 
+        //remove Content from HomeActivity
+        this.removeHomeView();
+
         FrameLayout contentFrameLayout = findViewById(R.id.content_frame);
         getLayoutInflater().inflate(R.layout.content_favorites, contentFrameLayout);
     }

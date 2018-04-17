@@ -14,6 +14,9 @@ public class IngredientsActivity extends HomeActivity {
 
         setTitle(R.string.nav_ingredients);
 
+        //remove Content from HomeActivity
+        this.removeHomeView();
+
         FrameLayout contentFrameLayout = findViewById(R.id.content_frame);
         getLayoutInflater().inflate(R.layout.content_ingredients, contentFrameLayout);
     }
