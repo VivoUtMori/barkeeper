@@ -37,6 +37,9 @@ public class LanguageManager {
             this.locale = locale;
         }
 
+        public long getId() {
+            return id;
+        }
     }
 
 

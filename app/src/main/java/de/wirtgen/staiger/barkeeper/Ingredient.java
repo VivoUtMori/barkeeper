@@ -184,15 +184,19 @@ public class Ingredient {
         myDao.update(this);
     }
 
-    public List<Ingredient> getAllIngredients(){
-        return this.daoSession.getIngredientDao().loadAll();
+    public static List<Ingredient> getAllIngredients(DaoSession ds){
+        return ds.getIngredientDao().loadAll();
     }
 
-    public Map<Ingredient, String> getAllIngredientsWithLangauge(Long languageID){
-        List<Ingredient> l = this.daoSession.getIngredientDao().loadAll();
+    public static Map<Ingredient, String> getAllIngredientsWithLanguageASC(DaoSession ds, Long languageID){
+
+        QueryBuilder<Ingredient> qb = ds.getIngredientDao().queryBuilder();
+        qb.join(LanguagesTexts.class, LanguagesTextsDao.Properties.IngredientID).where(LanguagesTextsDao.Properties.LanguageID.eq(languageID));
+        qb.orderAsc();
+        List<Ingredient> ll = qb.list();
         Map<Ingredient, String> output = new HashMap<>();
-        for (Ingredient i : l){
-            output.put(i, this.getIngredientsName(languageID));
+        for (Ingredient i : ll){
+            output.put(i, i.getIngredientsName(languageID));
         }
         return output;
     }
@@ -200,9 +204,16 @@ public class Ingredient {
     public String getIngredientsName(Long languageID){
         QueryBuilder<LanguagesTexts> qb = this.daoSession.getLanguagesTextsDao().queryBuilder();
         qb.where(LanguagesTextsDao.Properties.IngredientID.eq(this.getId()));
+        qb.where(LanguagesTextsDao.Properties.LanguageID.eq(languageID));
         List<LanguagesTexts> lt = qb.list();
+        Log.d("BarkeeperApp", "Lang in Ingredient: " + languageID);
+        Log.d("BarkeeperApp", "Ingredient ID: " + getId());
+        Log.d("BarkeeperApp", "Ingredient Text Size: " + lt.size());
+
+        if (lt.isEmpty()) {
+            return "";
+        }
         LanguagesTexts t = lt.get(0);
-        //Log.d("DoaDB","Loading Ingredient: " + this.getId() +  " Size of Text: " + lt.size()+ " text: " + t.getText());
         return t.getText();
     }
 

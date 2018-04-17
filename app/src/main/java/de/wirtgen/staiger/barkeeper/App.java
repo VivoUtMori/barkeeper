@@ -195,9 +195,9 @@ public class App extends Application {
         vodka.setIsForbidden(false);
         vodka.setIsAvailable(true);
 
-
-        daoSession.getIngredientDao().insert(rum);
         daoSession.getIngredientDao().insert(vodka);
+        daoSession.getIngredientDao().insert(rum);
+
 
         LanguagesTexts text_de_Rum = new LanguagesTexts();
         text_de_Rum.setText("Brauner Rum");
@@ -209,8 +209,21 @@ public class App extends Application {
         text_de_Vodka.setIngredientID(vodka.getId());
         text_de_Vodka.setLanguageID(german.getId());
 
+        LanguagesTexts text_en_Rum = new LanguagesTexts();
+        text_de_Rum.setText("Brown rum");
+        text_de_Rum.setIngredientID(rum.getId());
+        text_de_Rum.setLanguageID(english.getId());
+
+        LanguagesTexts text_en_Vodka = new LanguagesTexts();
+        text_de_Vodka.setText("vodka");
+        text_de_Vodka.setIngredientID(vodka.getId());
+        text_de_Vodka.setLanguageID(english.getId());
+
         daoSession.getLanguagesTextsDao().insert(text_de_Rum);
         daoSession.getLanguagesTextsDao().insert(text_de_Vodka);
+        daoSession.getLanguagesTextsDao().insert(text_en_Rum);
+        daoSession.getLanguagesTextsDao().insert(text_en_Vodka);
+
 
         Log.d("DaoDB", "Inserted Ingredient with ID: " + rum.getId() + " name: " + text_de_Rum.getText());
         Log.d("DaoDB", "Inserted Ingredient with ID: " + vodka.getId() + " name: " + text_de_Vodka.getText());
