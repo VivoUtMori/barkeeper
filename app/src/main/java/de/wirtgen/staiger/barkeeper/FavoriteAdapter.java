@@ -9,52 +9,36 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 
-/**
- * Created by Staiger/Wirtgen on 19.03.2018.
- */
-
-public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.ViewHolder>{
+public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHolderFav> {
 
     private String[] mDataSet;
-    private Map<Ingredient, String> map_ingredients;
+    private Map<Cocktail, String> map_favorites;
     private ArrayList<View> items;
-    private List<Ingredient> ingredientArrayList;
-    private Map<View, Ingredient> map_View_Ingredients;
+    private List<Cocktail> favArrayList;
+    private Map<View, Cocktail> map_View_Favs;
     private int k = 0;
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolderFav extends RecyclerView.ViewHolder {
         private final TextView textView;
 
-        public ViewHolder(View v) {
+        public ViewHolderFav(View v) {
             super(v);
 
             items.add(v);
             Log.d("BarkeeperApp", "Added Item");
 
-            Ingredient i = ingredientArrayList.get(k);
+            Cocktail i = favArrayList.get(k);
             k++;
 
-            map_View_Ingredients.put(v, i);
+            map_View_Favs.put(v, i);
 
-            Log.d("BarkeeperApp", "I: " + map_ingredients.get(i) + " IsAvailable: " + i.getIsAvailable() + " isForbidden: " + i.getIsForbidden());
-
-            ImageView imageView = (ImageView) v.findViewById(R.id.imageview_listitem);
-            if (i.getIsAvailable()){
-                imageView.setImageResource(R.drawable.icons8checkmark96);
-                imageView.setVisibility(View.VISIBLE);
-            }
-            if (i.getIsForbidden()){
-                imageView.setImageResource(R.drawable.icons8delete96);
-                imageView.setVisibility(View.VISIBLE);
-            }
 
             // Define click listener for the ViewHolder's View.
             v.setOnClickListener(new View.OnClickListener() {
@@ -62,23 +46,12 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
                 public void onClick(View v) {
                     ImageView iv = (ImageView) v.findViewById(R.id.imageview_listitem);
                     Log.d("BarkeeperApp", "Element " + getAdapterPosition() + " clicked.");
-                    Ingredient selectedIngredient = map_View_Ingredients.get(v);
-                    if (!selectedIngredient.getIsAvailable() && !selectedIngredient.getIsForbidden()){
+                    Cocktail selectedCocktail = map_View_Favs.get(v);
+                    /*if (!selectedCocktail.getIsAvailable() && !selectedCocktail.getIsForbidden()){
                         iv.setImageResource(R.drawable.icons8checkmark96);
                         iv.setVisibility(View.VISIBLE);
-                        selectedIngredient.setIsAvailable(true);
-                    }
-                    else if (selectedIngredient.getIsAvailable() && !selectedIngredient.getIsForbidden()){
-                        iv.setImageResource(R.drawable.icons8delete96);
-                        iv.setVisibility(View.VISIBLE);
-                        selectedIngredient.setIsAvailable(false);
-                        selectedIngredient.setIsForbidden(true);
-                    }
-                    else {
-                        iv.setVisibility(View.INVISIBLE);
-                        selectedIngredient.setIsAvailable(false);
-                        selectedIngredient.setIsForbidden(false);
-                    }
+                        selectedCocktail.setIsAvailable(true);
+                    }*/
 
                 }
             });
@@ -96,38 +69,36 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
      * Initialize the dataset of the Adapter.
      *
      */
-    public IngredientAdapter(Map<Ingredient, String> ingredients) {
-        this.map_ingredients = ingredients;
+    public FavoriteAdapter(Map<Cocktail, String> cocktails) {
+        this.map_favorites = cocktails;
         this.mDataSet = getStringArrFromMap();
         this.items = new ArrayList<>();
-        this.ingredientArrayList = new ArrayList<Ingredient>(ingredients.keySet());
-        this.map_View_Ingredients = new HashMap<>();
+        this.favArrayList = new ArrayList<Cocktail>(cocktails.keySet());
+        this.map_View_Favs = new HashMap<>();
     }
 
     private String[] getStringArrFromMap(){
         List<String> listStringIngredients = new ArrayList<>();
-        for (String s : map_ingredients.values()){
+        for (String s : map_favorites.values()){
             listStringIngredients.add(s);
         }
         Collections.sort(listStringIngredients);
         return listStringIngredients.toArray(new String[listStringIngredients.size()]);
-
-
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    public ViewHolderFav onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         // Create a new view.
         View v = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.list_item_ingredient, viewGroup, false);
-        return new ViewHolder(v);
+        return new ViewHolderFav(v);
     }
 
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(ViewHolderFav viewHolder, final int position) {
         Log.d("BarkeeperApp", "Element " + position + " set.");
 
         // Get element from your dataset at this position and replace the contents of the view

@@ -2,7 +2,7 @@
 <resources>
     <string name="navigation_drawer_open">Navigation öffnen</string>
     <string name="navigation_drawer_close">Navigation schließen</string>
-    <string name="nav_home">Home</string>
+    <string name="nav_home">Cocktail des Tages</string>
     <string name="nav_search">Suche</string>
     <string name="nav_ingredients">Zutaten</string>
     <string name="nav_favorites">Favoriten</string>
@@ -12,4 +12,5 @@
     <string name="button_languageEng">Sprach wechseln zu EN</string>
     <string name="content_cocktailoftheday">Cocktail des Tages</string>
     <string name="content_myingredients">Meine Zutaten</string>
+    <string name="cocktail_preperation_title" >Zubereitung</string>
 </resources>

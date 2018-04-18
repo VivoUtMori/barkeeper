@@ -32,7 +32,7 @@ import static android.os.Environment.DIRECTORY_DOWNLOADS;
 public class App extends Application {
     /** A flag to show how easily you can switch from standard SQLite to the encrypted SQLCipher. */
     public static final boolean ENCRYPTED = false;
-    private static final boolean readFromExternal = false;
+    private static final boolean readFromExternal = true;
 
     private DaoSession daoSession;
     private DaoMaster.DevOpenHelper helper;

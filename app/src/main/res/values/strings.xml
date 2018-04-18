@@ -3,7 +3,7 @@
     <string name="app_name" translatable="false">Barkeeper</string>
     <string name="navigation_drawer_open">Open navigation</string>
     <string name="navigation_drawer_close">Close navigation</string>
-    <string name="nav_home">Home</string>
+    <string name="nav_home">Cocktail of the day</string>
     <string name="nav_search">Search</string>
     <string name="nav_ingredients">Ingredients</string>
     <string name="nav_favorites">Favorites</string>
@@ -13,4 +13,5 @@
     <string name="button_languageEng" >Change language to EN</string>
     <string name="content_cocktailoftheday">Cocktail of the Day</string>
     <string name="content_myingredients">My Ingredients</string>
+    <string name="cocktail_preperation_title" >Preperation</string>
 </resources>

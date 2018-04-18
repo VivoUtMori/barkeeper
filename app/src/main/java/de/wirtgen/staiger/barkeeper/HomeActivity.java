@@ -3,6 +3,8 @@ package de.wirtgen.staiger.barkeeper;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -18,9 +20,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+
+import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.List;
 import java.util.Map;
@@ -53,31 +59,58 @@ public class HomeActivity extends AppCompatActivity
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
+        LanguageManager.Language currentLang = LanguageManager.getCurrentLanguage();
+        Log.d("BarkeeperApp", "Lang ID: " + currentLang.getId());
         DaoSession daoSession = ((App) getApplication()).getDaoSession();
 
-        List<LanguagesTexts> llt = daoSession.getLanguagesTextsDao().loadAll();
+        List<Cocktail> allCocktails = daoSession.getCocktailDao().loadAll();
+        int i = allCocktails.size();
+        Log.d("BarkeeperApp", "All Cocktail Size: " + i);
+        int randomID = Helper.getRandomNumber(1, i+1);
 
-        for (LanguagesTexts lt : llt){
-            Log.d("DaoDB", "LanguageText ID: " + lt.getId() + " IngredientID: " + lt.getIngredientID() + " text: " + lt.getText());
-        }
+        Log.d("BarkeeperApp", "Random Cocktail ID: " + randomID);
 
-        List<Ingredient> listIngredients = daoSession.getIngredientDao().loadAll();
-        for (Ingredient i : listIngredients){
-            Log.d("DaoDB","Readed Ingredient: "+ i.getId());
-            String l = i.getIngredientsName((long) 1);
-            Log.d("DaoDB","Readed Ingredient: "+ i.getId() + " name: " + l);
-        }
+        QueryBuilder<Cocktail> qb = daoSession.getCocktailDao().queryBuilder();
+        qb.where(CocktailDao.Properties.Id.eq(randomID));
+        List<Cocktail> lt = qb.list();
+        Cocktail cocktailOfTheDay = lt.get(0);
+        int imageID = getResources().getIdentifier(cocktailOfTheDay.getUrlPicture(), "drawable", getPackageName());
 
-        /*CocktailDao cocktailDao = daoSession.getCocktailDao();
-        List<Cocktail> listOfCocktails = daoSession.getLanguagesTextsDao().queryBuilder().where(CocktailDao.Properties.Name.like("%Long%")).list();
-        for (Cocktail c : listOfCocktails) {
-            Log.d("HomeActivity", "Loaded Cocktail from DB" + c.getId());
-            Map<Ingredient, Integer> m = c.getAllIngredientsWithUnits();
-            Log.d("HomeActivity", "Ingredients for cocktail: " + c.getId());
-            for (Map.Entry<Ingredient, Integer> e : m.entrySet()) {
-                Log.d("HomeActivity", "Entry: " + e.getKey().getId() + ": " + e.getValue().toString());
-            }
-        }*/
+
+        String cocktailName;
+        String cocktailDescription;
+        String cocktailPreperation;
+
+        QueryBuilder<LanguagesTexts> qb2 = daoSession.getLanguagesTextsDao().queryBuilder();
+        qb2.where(LanguagesTextsDao.Properties.CocktailID.eq(randomID));
+        qb2.where(LanguagesTextsDao.Properties.LanguageID.eq(currentLang.getId()));
+        qb2.where(LanguagesTextsDao.Properties.ComponentID.eq(Helper.Component.COCKTAILNAME.getId()));
+        cocktailName = qb2.list().get(0).getText();
+
+        qb2 = daoSession.getLanguagesTextsDao().queryBuilder();
+        qb2.where(LanguagesTextsDao.Properties.CocktailID.eq(randomID));
+        qb2.where(LanguagesTextsDao.Properties.LanguageID.eq(currentLang.getId()));
+        qb2.where(LanguagesTextsDao.Properties.ComponentID.eq(Helper.Component.COCKTAILDESCRIPTION.getId()));
+        cocktailDescription = qb2.list().get(0).getText();
+
+        qb2 = daoSession.getLanguagesTextsDao().queryBuilder();
+        qb2.where(LanguagesTextsDao.Properties.CocktailID.eq(randomID));
+        qb2.where(LanguagesTextsDao.Properties.LanguageID.eq(currentLang.getId()));
+        qb2.where(LanguagesTextsDao.Properties.ComponentID.eq(Helper.Component.COCKTAILPREPERATION.getId()));
+        cocktailPreperation = qb2.list().get(0).getText();
+
+        TextView textviewCocktailTitle = findViewById(R.id.cocktail_name);
+        textviewCocktailTitle.setText(cocktailName);
+
+        TextView textviewCocktailDescription = findViewById(R.id.cocktail_description);
+        textviewCocktailDescription.setText(cocktailDescription);
+
+        TextView textviewCocktailPreperation = findViewById(R.id.cocktail_preperation);
+        textviewCocktailPreperation.setText(cocktailPreperation);
+
+        ImageView ivCocktail = findViewById(R.id.cocktail_picture);
+        ivCocktail.setImageDrawable(getResources().getDrawable(imageID));
+
     }
 
     /*@Override

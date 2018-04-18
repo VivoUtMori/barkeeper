@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -16,50 +16,109 @@
 
     <ImageView
         android:id="@+id/cocktail_picture"
-        android:layout_width="match_parent"
-        android:layout_height="400px"
-        android:gravity="top|center"
-        ads:srcCompat="@android:color/darker_gray" />
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        ads:layout_constraintBottom_toTopOf="@+id/scrollView2"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:layout_constraintHorizontal_bias="1.0"
+        ads:layout_constraintStart_toStartOf="parent"
+        ads:layout_constraintTop_toTopOf="parent"
+        ads:layout_constraintVertical_bias="1.0"
+        ads:srcCompat="@drawable/longislandicedtea" />
 
-    <Space
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:fadeScrollbars="false"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/blockspace" />
+        android:layout_height="248dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        ads:layout_constraintBottom_toTopOf="@+id/adView"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:layout_constraintHorizontal_bias="0.5"
+        ads:layout_constraintStart_toStartOf="parent"
+        ads:layout_constraintTop_toBottomOf="@+id/cocktail_picture">
 
-    <TextView
-        android:id="@+id/Beschreibung"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="top|center"
-        android:text="Beschreibung" />
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            ads:layout_constraintBottom_toTopOf="@+id/adView"
+            ads:layout_constraintEnd_toEndOf="parent"
+            ads:layout_constraintHorizontal_bias="0.5"
+            ads:layout_constraintStart_toStartOf="parent"
+            ads:layout_constraintTop_toTopOf="parent"
+            ads:layout_constraintVertical_chainStyle="spread_inside">
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/blockspace" />
+            <TextView
+                android:id="@+id/cocktail_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:text="Cocktailname"
+                android:textStyle="bold"
+                ads:layout_constraintBottom_toTopOf="@+id/cocktail_description"
+                ads:layout_constraintEnd_toEndOf="parent"
+                ads:layout_constraintHorizontal_bias="0.501"
+                ads:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/Inhalt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="top|center"
-        android:text="Inhalt" />
+            <TextView
+                android:id="@+id/cocktail_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:paddingLeft="5dp"
+                android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum."
+                ads:layout_constraintBottom_toTopOf="@+id/cocktail_preperation_title"
+                ads:layout_constraintEnd_toEndOf="parent"
+                ads:layout_constraintHorizontal_bias="0.0"
+                ads:layout_constraintStart_toStartOf="parent"
+                ads:layout_constraintTop_toBottomOf="@+id/cocktail_name" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/blockspace" />
+            <TextView
+                android:id="@+id/cocktail_preperation_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="top|center"
+                android:text="@string/cocktail_preperation_title"
+                android:textStyle="bold"
+                ads:layout_constraintBottom_toTopOf="@+id/cocktail_preperation"
+                ads:layout_constraintEnd_toEndOf="parent"
+                ads:layout_constraintHorizontal_bias="0.5"
+                ads:layout_constraintStart_toStartOf="parent"
+                ads:layout_constraintTop_toBottomOf="@+id/cocktail_description" />
 
-    <TextView
-        android:id="@+id/Zubereitung"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="top|center"
-        android:text="Zubereitung" />
+            <TextView
+                android:id="@+id/cocktail_preperation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:paddingLeft="5dp"
+                android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum."
+                ads:layout_constraintBottom_toBottomOf="parent"
+                ads:layout_constraintEnd_toEndOf="parent"
+                ads:layout_constraintHorizontal_bias="0.0"
+                ads:layout_constraintStart_toStartOf="parent"
+                ads:layout_constraintTop_toBottomOf="@+id/cocktail_preperation_title" />
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
         ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111" />
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        ads:layout_constraintBottom_toBottomOf="parent"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:layout_constraintHorizontal_bias="0.5"
+        ads:layout_constraintStart_toStartOf="parent"
+        ads:layout_constraintTop_toBottomOf="@+id/scrollView2" />
 
-</GridLayout>
+</android.support.constraint.ConstraintLayout>
