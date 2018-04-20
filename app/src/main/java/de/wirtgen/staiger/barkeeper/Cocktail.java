@@ -9,6 +9,7 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.query.QueryBuilder;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -142,6 +143,21 @@ public class Cocktail {
             throw new DaoException("Entity is detached from DAO context");
         }
         myDao.update(this);
+    }
+
+
+    public static Map<Cocktail, String> getAllCoacktailsWithNamesASC(DaoSession ds, Long languageID){
+        Map<Cocktail, String> output = new HashMap<>();
+
+        QueryBuilder<Cocktail> qb = ds.getCocktailDao().queryBuilder();
+        qb.join(LanguagesTexts.class, LanguagesTextsDao.Properties.IngredientID).where(LanguagesTextsDao.Properties.LanguageID.eq(languageID));
+        qb.orderAsc();
+        List<Cocktail> ll = qb.list();
+        for (Cocktail c : ll){
+            output.put(c, c.getCocktailsName(languageID));
+        }
+
+        return output;
     }
 
     public Map<Ingredient, Integer> getAllIngredientsWithUnits(){

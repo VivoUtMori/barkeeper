@@ -24,10 +24,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
 
     private String[] mDataSet;
     private Map<Ingredient, String> map_ingredients;
-    private ArrayList<View> items;
-    private List<Ingredient> ingredientArrayList;
     private Map<View, Ingredient> map_View_Ingredients;
-    private int k = 0;
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -36,25 +33,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
         public ViewHolder(View v) {
             super(v);
 
-            items.add(v);
             Log.d("BarkeeperApp", "Added Item");
-
-            Ingredient i = ingredientArrayList.get(k);
-            k++;
-
-            map_View_Ingredients.put(v, i);
-
-            Log.d("BarkeeperApp", "I: " + map_ingredients.get(i) + " IsAvailable: " + i.getIsAvailable() + " isForbidden: " + i.getIsForbidden());
-
-            ImageView imageView = (ImageView) v.findViewById(R.id.imageview_listitem);
-            if (i.getIsAvailable()){
-                imageView.setImageResource(R.drawable.icons8checkmark96);
-                imageView.setVisibility(View.VISIBLE);
-            }
-            if (i.getIsForbidden()){
-                imageView.setImageResource(R.drawable.icons8delete96);
-                imageView.setVisibility(View.VISIBLE);
-            }
 
             // Define click listener for the ViewHolder's View.
             v.setOnClickListener(new View.OnClickListener() {
@@ -99,8 +78,6 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
     public IngredientAdapter(Map<Ingredient, String> ingredients) {
         this.map_ingredients = ingredients;
         this.mDataSet = getStringArrFromMap();
-        this.items = new ArrayList<>();
-        this.ingredientArrayList = new ArrayList<Ingredient>(ingredients.keySet());
         this.map_View_Ingredients = new HashMap<>();
     }
 
@@ -133,6 +110,29 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
         // Get element from your dataset at this position and replace the contents of the view
         // with that element
         viewHolder.getTextView().setText(mDataSet[position]);
+
+        Ingredient i = getRightIngredient(mDataSet[position]);
+        this.map_View_Ingredients.put(viewHolder.itemView, i);
+
+        ImageView imageView = (ImageView) viewHolder.itemView.findViewById(R.id.imageview_listitem);
+        if (i.getIsAvailable()){
+            imageView.setImageResource(R.drawable.icons8checkmark96);
+            imageView.setVisibility(View.VISIBLE);
+        }
+        if (i.getIsForbidden()){
+            imageView.setImageResource(R.drawable.icons8delete96);
+            imageView.setVisibility(View.VISIBLE);
+        }
+    }
+
+
+    private Ingredient getRightIngredient(String s){
+        for (Map.Entry<Ingredient, String> e : map_ingredients.entrySet()){
+            if (e.getValue().equals(s)){
+                return e.getKey();
+            }
+        }
+        return null;
     }
 
     // Return the size of your dataset (invoked by the layout manager)

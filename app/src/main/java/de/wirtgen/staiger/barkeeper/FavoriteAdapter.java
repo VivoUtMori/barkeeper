@@ -1,5 +1,6 @@
 package de.wirtgen.staiger.barkeeper;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,10 +20,8 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
 
     private String[] mDataSet;
     private Map<Cocktail, String> map_favorites;
-    private ArrayList<View> items;
-    private List<Cocktail> favArrayList;
     private Map<View, Cocktail> map_View_Favs;
-    private int k = 0;
+    private Context context;
 
 
     public class ViewHolderFav extends RecyclerView.ViewHolder {
@@ -31,14 +30,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
         public ViewHolderFav(View v) {
             super(v);
 
-            items.add(v);
             Log.d("BarkeeperApp", "Added Item");
-
-            Cocktail i = favArrayList.get(k);
-            k++;
-
-            map_View_Favs.put(v, i);
-
 
             // Define click listener for the ViewHolder's View.
             v.setOnClickListener(new View.OnClickListener() {
@@ -47,10 +39,19 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
                     ImageView iv = (ImageView) v.findViewById(R.id.imageview_listitem);
                     Log.d("BarkeeperApp", "Element " + getAdapterPosition() + " clicked.");
                     Cocktail selectedCocktail = map_View_Favs.get(v);
-                    /*if (!selectedCocktail.getIsAvailable() && !selectedCocktail.getIsForbidden()){
-                        iv.setImageResource(R.drawable.icons8checkmark96);
+
+                    if(context instanceof FavoritesActivity){
+                        ((FavoritesActivity) context).showCocktailDetail(selectedCocktail);
+                    }
+
+                    /*if(!selectedCocktail.getIsFavourite()) {
+                        iv.setImageResource(R.drawable.icons8starfilled96);
                         iv.setVisibility(View.VISIBLE);
-                        selectedCocktail.setIsAvailable(true);
+                        selectedCocktail.setIsFavourite(true);
+                    }
+                    else{
+                        iv.setVisibility(View.INVISIBLE);
+                        selectedCocktail.setIsFavourite(false);
                     }*/
 
                 }
@@ -69,21 +70,20 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
      * Initialize the dataset of the Adapter.
      *
      */
-    public FavoriteAdapter(Map<Cocktail, String> cocktails) {
+    public FavoriteAdapter(Map<Cocktail, String> cocktails, Context c) {
         this.map_favorites = cocktails;
         this.mDataSet = getStringArrFromMap();
-        this.items = new ArrayList<>();
-        this.favArrayList = new ArrayList<Cocktail>(cocktails.keySet());
         this.map_View_Favs = new HashMap<>();
+        this.context = c;
     }
 
     private String[] getStringArrFromMap(){
-        List<String> listStringIngredients = new ArrayList<>();
+        List<String> listStringFavs = new ArrayList<>();
         for (String s : map_favorites.values()){
-            listStringIngredients.add(s);
+            listStringFavs.add(s);
         }
-        Collections.sort(listStringIngredients);
-        return listStringIngredients.toArray(new String[listStringIngredients.size()]);
+        Collections.sort(listStringFavs);
+        return listStringFavs.toArray(new String[listStringFavs.size()]);
     }
 
     // Create new views (invoked by the layout manager)
@@ -104,6 +104,25 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
         // Get element from your dataset at this position and replace the contents of the view
         // with that element
         viewHolder.getTextView().setText(mDataSet[position]);
+
+        Cocktail c = getRightCocktail(mDataSet[position]);
+
+        this.map_View_Favs.put(viewHolder.itemView, c);
+
+        ImageView imageView = (ImageView) viewHolder.itemView.findViewById(R.id.imageview_listitem);
+        if (c.getIsFavourite()){
+            imageView.setImageResource(R.drawable.icons8starfilled96);
+            imageView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private Cocktail getRightCocktail(String s){
+        for (Map.Entry<Cocktail, String> e : map_favorites.entrySet()){
+            if (e.getValue().equals(s)){
+                return e.getKey();
+            }
+        }
+        return null;
     }
 
     // Return the size of your dataset (invoked by the layout manager)
