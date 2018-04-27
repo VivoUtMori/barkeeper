@@ -26,6 +26,7 @@ public class SettingsActivity extends HomeActivity {
 
         //remove Content from HomeActivity
         this.removeHomeView();
+        this.removeFrameContent();
 
         FrameLayout contentFrameLayout = findViewById(R.id.content_frame);
         getLayoutInflater().inflate(R.layout.content_settings, contentFrameLayout);

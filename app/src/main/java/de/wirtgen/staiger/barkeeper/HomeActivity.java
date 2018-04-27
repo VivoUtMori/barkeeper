@@ -56,8 +56,8 @@ public class HomeActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        /*FrameLayout contentFrameLayout = findViewById(R.id.content_frame);
-        getLayoutInflater().inflate(R.layout.content_cocktail, contentFrameLayout);*/
+        FrameLayout contentFrameLayout = findViewById(R.id.content_frame);
+        getLayoutInflater().inflate(R.layout.content_cocktail, contentFrameLayout);
 
         AdView mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -229,6 +229,11 @@ public class HomeActivity extends AppCompatActivity
         ConstraintLayout lr = findViewById(R.id.content_home);
         CoordinatorLayout cl = findViewById(R.id.app_bar_coordinaterLayout);
         cl.removeView(lr);
+    }
+
+    public void removeFrameContent(){
+        FrameLayout contentFrameLayout = findViewById(R.id.content_frame);
+        contentFrameLayout.removeAllViews();
     }
 
     @Override

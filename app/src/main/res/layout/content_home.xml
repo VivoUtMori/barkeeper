@@ -9,16 +9,6 @@
         tools:showIn="@layout/app_bar_home"
         android:id="@+id/content_home" >
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/content_cocktailoftheday"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.065" />
 
     <include layout="@layout/content_cocktail"></include>
 

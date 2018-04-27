@@ -19,6 +19,7 @@ public class IngredientsActivity extends HomeActivity {
 
         //remove Content from HomeActivity
         this.removeHomeView();
+        this.removeFrameContent();
 
         DaoSession daoSession = ((App) getApplication()).getDaoSession();
         LanguageManager.Language currentLang = LanguageManager.getCurrentLanguage();
