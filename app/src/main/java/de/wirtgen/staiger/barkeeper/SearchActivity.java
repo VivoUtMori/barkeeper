@@ -3,6 +3,7 @@ package de.wirtgen.staiger.barkeeper;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -27,6 +28,8 @@ public class SearchActivity extends HomeActivity implements SearchAdapter.Search
 
     SearchAdapter sa;
     SearchView searchView;
+    boolean showsSubContent;
+    String filterString = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,29 @@ public class SearchActivity extends HomeActivity implements SearchAdapter.Search
         super.onCreate(savedInstanceState);
 
         setTitle(R.string.nav_search);
+
+        showContent();
+
+        toggle.setDrawerIndicatorEnabled(false);
+
+        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("BarkeeperApp", "Back Button pushed");
+                if(showsSubContent){
+                    showContent();
+                }
+                else{
+                    Intent intent_Home = new Intent(getApplicationContext(), HomeActivity.class);
+                    startActivity(intent_Home);
+                }
+                drawer.closeDrawers();
+            }
+        });
+    }
+
+    private void showContent(){
+        showsSubContent = false;
 
         //remove Content from HomeActivity
         this.removeHomeView();
@@ -58,6 +84,8 @@ public class SearchActivity extends HomeActivity implements SearchAdapter.Search
         rv.setAdapter(sa);
 
         sa.notifyDataSetChanged();
+        sa.getFilter().filter(filterString);
+
     }
 
     @Override
@@ -78,6 +106,7 @@ public class SearchActivity extends HomeActivity implements SearchAdapter.Search
             public boolean onQueryTextSubmit(String query) {
                 // filter recycler view when query submitted
                 sa.getFilter().filter(query);
+                filterString = query;
                 return false;
             }
 
@@ -85,6 +114,7 @@ public class SearchActivity extends HomeActivity implements SearchAdapter.Search
             public boolean onQueryTextChange(String query) {
                 // filter recycler view when text is changed
                 sa.getFilter().filter(query);
+                filterString = query;
                 return false;
             }
         });
@@ -135,6 +165,8 @@ public class SearchActivity extends HomeActivity implements SearchAdapter.Search
 
     public void showCocktailDetail(Cocktail selectedCocktail){
         Log.d("BarkeeperApp", "Callback to Activity. Cocktail ID: " + selectedCocktail.getId());
+
+        showsSubContent = true;
 
         this.removeHomeView();
         this.removeFrameContent();

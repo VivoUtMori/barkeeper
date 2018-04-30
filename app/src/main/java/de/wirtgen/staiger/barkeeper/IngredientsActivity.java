@@ -1,9 +1,12 @@
 package de.wirtgen.staiger.barkeeper;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 
 import java.util.Map;
@@ -36,6 +39,17 @@ public class IngredientsActivity extends HomeActivity {
         IngredientAdapter ia = new IngredientAdapter(m);
         rv.setLayoutManager(lm);
         rv.setAdapter(ia);
+
+
+        final Button btn_shaker = findViewById(R.id.btn_shakeit);
+        btn_shaker.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Code here executes on main thread after user presses button
+                Log.d("BarkeeperApp", "Button pushed");
+            }
+        });
+
+        setupBackButtonActionBar();
 
     }
 

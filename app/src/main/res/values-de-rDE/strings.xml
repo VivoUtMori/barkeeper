@@ -13,5 +13,6 @@
     <string name="content_cocktailoftheday">Cocktail des Tages</string>
     <string name="content_myingredients">Meine Zutaten</string>
     <string name="cocktail_preperation_title" >Zubereitung</string>
-    <string name="menu_search" />
+    <string name="menu_search" >Suche...</string>
+    <string name="content_shakeit">Shake it!</string>
 </resources>

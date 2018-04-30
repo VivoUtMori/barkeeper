@@ -60,6 +60,8 @@ public class SettingsActivity extends HomeActivity {
         });
 
 
+        setupBackButtonActionBar();
+
     }
 
 }

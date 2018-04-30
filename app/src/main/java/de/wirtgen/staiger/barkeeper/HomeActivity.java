@@ -37,14 +37,17 @@ public class HomeActivity extends AppCompatActivity
 
     DrawerLayout drawer;
     ActionBarDrawerToggle toggle;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         setTitle(R.string.nav_home);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //toolbar.back
 
         drawer = findViewById(R.id.drawer_layout);
 
@@ -117,7 +120,6 @@ public class HomeActivity extends AppCompatActivity
 
     }
 
-    /*@Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -125,7 +127,7 @@ public class HomeActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
-    }*/
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -193,6 +195,10 @@ public class HomeActivity extends AppCompatActivity
                 break;
         }
 
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
         /*setTitle(item.getTitle());
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -210,7 +216,7 @@ public class HomeActivity extends AppCompatActivity
         //DrawerLayout drawer = findViewById(R.id.drawer_layout);
         //drawer.closeDrawer(GravityCompat.START);
         return true;*/
-        return false;
+        return true;
     }
 
 
@@ -234,6 +240,21 @@ public class HomeActivity extends AppCompatActivity
     public void removeFrameContent(){
         FrameLayout contentFrameLayout = findViewById(R.id.content_frame);
         contentFrameLayout.removeAllViews();
+    }
+
+    public void setupBackButtonActionBar(){
+        // update the actionbar
+        toggle.setDrawerIndicatorEnabled(false);
+
+        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("BarkeeperApp", "Back Button pushed");
+                Intent intent_Home = new Intent(getApplicationContext(), HomeActivity.class);
+                startActivity(intent_Home);
+                drawer.closeDrawers();
+            }
+        });
     }
 
     @Override

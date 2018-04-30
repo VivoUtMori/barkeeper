@@ -2,12 +2,14 @@ package de.wirtgen.staiger.barkeeper;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,6 +20,9 @@ import java.util.Map;
 
 public class FavoritesActivity extends HomeActivity {
 
+    boolean showsSubContent;
+    Bundle savedState;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -25,13 +30,42 @@ public class FavoritesActivity extends HomeActivity {
 
         setTitle(R.string.nav_favorites);
 
-        //remove Content from HomeActivity
+        showsSubContent = false;
+        savedState = savedInstanceState;
+
+        showContent();
+
+
+        toggle.setDrawerIndicatorEnabled(false);
+
+        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("BarkeeperApp", "Back Button pushed");
+                if(showsSubContent){
+                    showContent();
+                }
+                else{
+                    Intent intent_Home = new Intent(getApplicationContext(), HomeActivity.class);
+                    startActivity(intent_Home);
+                }
+                drawer.closeDrawers();
+            }
+        });
+
+
+
+    }
+
+
+    private void showContent(){
+        showsSubContent = false;
+
         this.removeHomeView();
         this.removeFrameContent();
 
         FrameLayout contentFrameLayout = findViewById(R.id.content_frame);
         getLayoutInflater().inflate(R.layout.content_favorites, contentFrameLayout);
-
 
         DaoSession daoSession = ((App) getApplication()).getDaoSession();
         LanguageManager.Language currentLang = LanguageManager.getCurrentLanguage();
@@ -46,7 +80,6 @@ public class FavoritesActivity extends HomeActivity {
         rv.setAdapter(fa);
     }
 
-
     public void showCocktailDetail(Cocktail selectedCocktail){
         Log.d("BarkeeperApp", "Callback to Activity. Cocktail ID: " + selectedCocktail.getId());
 
@@ -56,6 +89,7 @@ public class FavoritesActivity extends HomeActivity {
         FrameLayout contentFrameLayout = findViewById(R.id.content_frame);
         getLayoutInflater().inflate(R.layout.content_cocktail, contentFrameLayout);
 
+        showsSubContent = true;
 
         LanguageManager.Language currentLang = LanguageManager.getCurrentLanguage();
         DaoSession daoSession = ((App) getApplication()).getDaoSession();

@@ -14,5 +14,6 @@
     <string name="content_cocktailoftheday">Cocktail of the Day</string>
     <string name="content_myingredients">My Ingredients</string>
     <string name="cocktail_preperation_title" >Preperation</string>
-    <string name="menu_search" />
+    <string name="menu_search" >Search...</string>
+    <string name="content_shakeit">Shake it!</string>
 </resources>
