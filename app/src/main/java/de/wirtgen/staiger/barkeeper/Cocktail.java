@@ -198,6 +198,27 @@ public class Cocktail {
         return t.getText();
     }
 
+
+    public String getIngredientsForCocktail(Long languageID){
+        QueryBuilder<Recipes> qb = daoSession.getRecipesDao().queryBuilder();
+        QueryBuilder<LanguagesTexts> qbl;
+        String output = "";
+
+        qb.where(RecipesDao.Properties.CocktailID.eq(this.getId()));
+        List<Recipes> recipesList = qb.list();
+        for (Recipes r : recipesList){
+            qbl = daoSession.getLanguagesTextsDao().queryBuilder();
+            qbl.where(LanguagesTextsDao.Properties.IngredientID.eq(r.getIngredientID()));
+            qbl.where(LanguagesTextsDao.Properties.LanguageID.eq(languageID));
+            List<LanguagesTexts> result = qbl.list();
+            if (result.size() == 1){
+                output += result.get(0).getText() + ", ";
+            }
+        }
+        return output.substring(0, output.length()-2);
+    }
+
+
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 684466229)
     public void __setDaoSession(DaoSession daoSession) {

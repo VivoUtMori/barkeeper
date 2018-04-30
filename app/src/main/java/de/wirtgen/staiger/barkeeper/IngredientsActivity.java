@@ -46,6 +46,9 @@ public class IngredientsActivity extends HomeActivity {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
                 Log.d("BarkeeperApp", "Button pushed");
+                Intent intent_Result = new Intent(getApplicationContext(), ResultActivity.class);
+                startActivity(intent_Result);
+                drawer.closeDrawers();
             }
         });
 

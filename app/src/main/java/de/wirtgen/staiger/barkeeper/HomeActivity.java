@@ -83,6 +83,7 @@ public class HomeActivity extends AppCompatActivity
         Cocktail cocktailOfTheDay = lt.get(0);
         int imageID = getResources().getIdentifier(cocktailOfTheDay.getUrlPicture(), "drawable", getPackageName());
 
+        Log.d("BarkeeperApp", "Packagename: " + getPackageName());
 
         String cocktailName;
         String cocktailDescription;

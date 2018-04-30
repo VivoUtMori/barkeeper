@@ -16,4 +16,6 @@
     <string name="cocktail_preperation_title" >Preperation</string>
     <string name="menu_search" >Search...</string>
     <string name="content_shakeit">Shake it!</string>
+    <string name="content_avaible_cocktails">Your doable cocktails</string>
+    <string name="nav_result">Cocktails</string>
 </resources>
