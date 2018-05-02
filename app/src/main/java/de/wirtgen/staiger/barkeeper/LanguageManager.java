@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import java.util.Locale;
 
@@ -53,13 +54,38 @@ public class LanguageManager {
     }
 
     public static Context setLanguage(Context c, Language newLanguage){
+        Log.d("BarkeeperApp", "LANGUAGE MANAGER setLanguage");
         currentLanguage = newLanguage;
         return update(c, newLanguage);
     }
 
-    private static Context update(Context c, Language l){
+    public static void getLanguageFromSharedPref(Context c){
+        Log.d("BarkeeperApp", "LANGUAGE MANAGER getLanguageFromSharedPref");
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(c);
-        pref.edit().putString("language_key", l.locale);
+        String lang = pref.getString("language_key", "");
+        Log.d("BarkeeperApp", "LangKey: " + lang);
+        if (!lang.isEmpty()){
+            switch (lang){
+                case "de": setLanguage(c, Language.GERMAN); break;
+                case "en": setLanguage(c, Language.ENGLISH); break;
+                default: setLanguage(c, Language.ENGLISH); break;
+            }
+        }
+        else{
+            setLanguage(c, Language.ENGLISH);
+        }
+    }
+
+    private static Context update(Context c, Language l){
+        Log.d("BarkeeperApp", "LANGUAGE MANAGER update");
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(c);
+        //pref.edit().putString("language_key", l.locale).apply();
+        String lang = pref.getString("language_key", "");
+        Log.d("BarkeeperApp", "update LangKey: " + lang);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("language_key", l.locale);
+        editor.commit();
+        //editor.apply();
 
         Locale locale = new Locale(l.locale);
         Locale.setDefault(locale);

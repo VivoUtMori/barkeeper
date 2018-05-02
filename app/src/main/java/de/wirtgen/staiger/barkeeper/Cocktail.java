@@ -218,6 +218,18 @@ public class Cocktail {
         return output.substring(0, output.length()-2);
     }
 
+    public static Map<Cocktail, String> getAllFavoriteCocktails(DaoSession ds, long languageID){
+        QueryBuilder<Cocktail> qb = ds.getCocktailDao().queryBuilder();
+        qb.where(CocktailDao.Properties.IsFavourite.eq(true));
+        List<Cocktail> cocktailList = qb.list();
+        Map<Cocktail, String> cocktailStringMap = new HashMap<>();
+        for(Cocktail c : cocktailList){
+            cocktailStringMap.put(c, c.getCocktailsName(languageID));
+        }
+        return cocktailStringMap;
+
+    }
+
 
     /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 684466229)

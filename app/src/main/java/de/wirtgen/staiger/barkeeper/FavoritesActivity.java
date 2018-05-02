@@ -71,7 +71,7 @@ public class FavoritesActivity extends HomeActivity {
         LanguageManager.Language currentLang = LanguageManager.getCurrentLanguage();
         Log.d("BarkeeperApp", "Current Lang: " + currentLang.name());
 
-        Map<Cocktail, String> m = Cocktail.getAllCoacktailsWithNamesASC(daoSession, currentLang.getId());
+        Map<Cocktail, String> m = Cocktail.getAllFavoriteCocktails(daoSession, currentLang.getId());
 
         RecyclerView rv = findViewById(R.id.content_recyclerView_favs);
         LinearLayoutManager lm = new LinearLayoutManager(this);

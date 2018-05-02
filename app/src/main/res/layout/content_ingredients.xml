@@ -24,11 +24,16 @@
         android:id="@+id/content_recyclerView_ingredients"
         android:layout_width="368dp"
         android:layout_height="433dp"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        android:scrollbars="vertical"
+        android:fadeScrollbars="false"
+        android:scrollbarThumbVertical="@android:color/darker_gray"
+        android:scrollbarSize="9dp"
+        android:orientation="vertical"
+        android:scrollbarStyle="outsideInset" />
 
     <Button
         android:id="@+id/btn_shakeit"

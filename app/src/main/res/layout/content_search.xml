@@ -16,6 +16,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:scrollbars="vertical"
+        android:fadeScrollbars="false"
+        android:scrollbarThumbVertical="@android:color/darker_gray"
+        android:scrollbarSize="9dp"
+        android:orientation="vertical"
+        android:scrollbarStyle="outsideInset"
+        />
 
 </android.support.constraint.ConstraintLayout>

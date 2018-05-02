@@ -7,11 +7,13 @@ package de.wirtgen.staiger.barkeeper;
 import android.app.Application;
 import android.app.LoaderManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.media.MediaScannerConnection;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.greenrobot.greendao.database.Database;
@@ -47,21 +49,26 @@ public class App extends Application {
 
     @Override
     protected void attachBaseContext(Context base) {
-        super.attachBaseContext(LanguageManager.setLanguage(base, LanguageManager.getCurrentLanguage()));
+        super.attachBaseContext(base);
+        Log.d("BarkeeperApp", "APP attachBaseContext");
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         LanguageManager.setLanguage(this, LanguageManager.getCurrentLanguage());
-        Log.d("BarkeeperApp", "Config has changed");
+        Log.d("BarkeeperApp", "APP Config has changed");
     }
+
+
 
     @Override
     public void onCreate() {
         super.onCreate();
-
+        Log.d("BarkeeperApp", "APP onCreate");
+        LanguageManager.getLanguageFromSharedPref(this);
         Log.d("BarkeeperApp", "Locale Language: " + this.getBaseContext().getResources().getConfiguration().locale.getLanguage());
+
         //LanguageManager.getInstance().setLanguage(this, LanguageManager.Language.ENGLISH);
 
 

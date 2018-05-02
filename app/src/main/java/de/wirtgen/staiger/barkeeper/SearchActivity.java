@@ -118,7 +118,7 @@ public class SearchActivity extends HomeActivity implements SearchAdapter.Search
                 return false;
             }
         });
-        sa.getFilter().filter("");
+        //sa.getFilter().filter("");
         return true;
     }
 

@@ -140,6 +140,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             protected FilterResults performFiltering(CharSequence charSequence) {
                 String charString = charSequence.toString();
                 if (charString.isEmpty()) {
+                    mDataSetFiltered.clear();
                      for (String s : mDataSet){
                          mDataSetFiltered.add(s);
                      }

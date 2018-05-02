@@ -2,10 +2,12 @@ package de.wirtgen.staiger.barkeeper;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.util.Log;
@@ -40,8 +42,19 @@ public class HomeActivity extends AppCompatActivity
     Toolbar toolbar;
 
     @Override
+    public void onResume(){
+        super.onResume();
+        Log.d("BarkeeperApp", "HOME ACT onResume");
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        String lang = pref.getString("language_key", "");
+        Log.d("BarkeeperApp", "HOME ACT onResume LangKey: " + lang);
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("BarkeeperApp", "HOME ACT onCreate");
         setContentView(R.layout.activity_home);
         setTitle(R.string.nav_home);
         toolbar = findViewById(R.id.toolbar);
@@ -66,8 +79,11 @@ public class HomeActivity extends AppCompatActivity
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
+        Log.d("BarkeeperApp", "Lang: " + LanguageManager.getCurrentLanguage().name());
+
+
         LanguageManager.Language currentLang = LanguageManager.getCurrentLanguage();
-        Log.d("BarkeeperApp", "Lang ID: " + currentLang.getId());
+        Log.d("BarkeeperApp", "Lang: " + currentLang.name());
         DaoSession daoSession = ((App) getApplication()).getDaoSession();
 
         List<Cocktail> allCocktails = daoSession.getCocktailDao().loadAll();
@@ -261,13 +277,13 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(LanguageManager.setLanguage(base, LanguageManager.getCurrentLanguage()));
-        Log.d("BarkeeperApp", "attachBaseContext");
+        Log.d("BarkeeperApp", "HOME ACT attachBaseContext");
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         LanguageManager.setLanguage(this, LanguageManager.getCurrentLanguage());
-        Log.d("BarkeeperApp", "Config has changed");
+        Log.d("BarkeeperApp", "HOME ACT Config has changed");
     }
 }

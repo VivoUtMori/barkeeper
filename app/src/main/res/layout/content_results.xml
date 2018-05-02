@@ -25,5 +25,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/content_textview_result" />
+        app:layout_constraintTop_toBottomOf="@+id/content_textview_result"
+        android:scrollbars="vertical"
+        android:fadeScrollbars="false"
+        android:scrollbarThumbVertical="@android:color/darker_gray"
+        android:scrollbarSize="9dp"
+        android:orientation="vertical"
+        android:scrollbarStyle="outsideInset" />
 </android.support.constraint.ConstraintLayout>
